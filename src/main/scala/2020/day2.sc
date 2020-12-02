@@ -12,7 +12,8 @@ val sample = List(
 def isValidFirst(policy: Array[String]): Boolean = policy match {
   case Array(from, to, char, password) =>
     val occurrences = password.count(char.headOption.contains)
-    occurrences >= from.toInt && occurrences <= to.toInt
+    from.toIntOption.exists(occurrences >= _) &&
+      to.toIntOption.exists(occurrences <= _)
 }
 
 def solveFirst(input: Seq[Array[String]]): Int =
@@ -23,8 +24,8 @@ solveFirst(in)
 
 def isValidSecond(policy: Array[String]): Boolean = policy match {
   case Array(from, to, char, password) =>
-    password.lift(from.toInt - 1) == char.headOption ^
-      password.lift(to.toInt - 1) == char.headOption
+    from.toIntOption.map(_ - 1).flatMap(password.lift) == char.headOption ^
+      to.toIntOption.map(_ - 1).flatMap(password.lift) == char.headOption
 }
 
 def solveSecond(input: Seq[Array[String]]): Int =
