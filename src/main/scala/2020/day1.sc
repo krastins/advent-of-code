@@ -1,6 +1,6 @@
-import Utils.{readInput, time}
+import Utils.{readIntInput, time}
 
-val in = readInput("2020/day1/input")
+val in = readIntInput("2020/day1/input")
 
 val sample: List[Int] = List(1721, 979, 366, 299, 675, 1456)
 
