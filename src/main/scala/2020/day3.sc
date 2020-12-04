@@ -1,7 +1,7 @@
-import Utils.readStringInput
+import Utils.readStringLines
 import scala.annotation.tailrec
 
-val in = readStringInput("2020/day3/input")
+val in = readStringLines("2020/day3/input")
 
 val sample = List(
   "..##.......",

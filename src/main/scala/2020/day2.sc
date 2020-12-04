@@ -1,6 +1,6 @@
-import Utils.readStringInput
+import Utils.readStringLines
 
-val in = readStringInput("2020/day2/input")
+val in = readStringLines("2020/day2/input")
   .map(_.replaceAll(":", "").split("\\s|-"))
 
 val sample = List(
