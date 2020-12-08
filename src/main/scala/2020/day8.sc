@@ -27,18 +27,19 @@ def execute(instructions: IndexedSeq[Op], pos: Int = 0, acc: Int = 0, executed: 
 assert(execute(sample) == Result(terminated = false, 5))
 execute(in)
 
-def swapInstruction(instructions: IndexedSeq[Op], pos: Int): IndexedSeq[Op] =
+def swapInstruction(instructions: IndexedSeq[Op], pos: Int): Option[IndexedSeq[Op]] =
   instructions(pos) match {
-    case Op("jmp", arg) => instructions.updated(pos, Op("nop", arg))
-    case Op("nop", arg) => instructions.updated(pos, Op("jmp", arg))
-    case Op(_, _) => instructions
+    case Op("jmp", arg) => Some(instructions.updated(pos, Op("nop", arg)))
+    case Op("nop", arg) => Some(instructions.updated(pos, Op("jmp", arg)))
+    case Op(_, _) => None
   }
 
 @tailrec
 def solveSecond(instructions: IndexedSeq[Op], pos: Int = 0): Result =
-  execute(swapInstruction(instructions, pos)) match {
-    case Result(false, _) => solveSecond(instructions, pos +1)
-    case r @ Result(true, _) => r
+  swapInstruction(instructions, pos).map(execute(_)) match {
+    case Some(Result(false, _)) => solveSecond(instructions, pos + 1)
+    case Some(r @ Result(true, _)) => r
+    case None => solveSecond(instructions, pos + 1)
   }
 
 assert(solveSecond(sample) == Result(terminated = true, 8))
